@@ -4,30 +4,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Otech | Seguridad e Internet</title>
-  <!-- Fuente moderna desde Google Fonts -->
+  <!-- Fuente moderna -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #1f2e4d;
       --secondary: #3f7fbf;
-      --accent: #4caf50; /* Un verde para resaltar éxito/seguridad */
+      --accent: #4caf50;
       --text: #333;
       --light-bg: #f8f9fa;
       --white: #ffffff;
       --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', sans-serif;
       line-height: 1.6;
       margin: 0;
       padding: 0;
       background-color: var(--light-bg);
       color: var(--text);
+    }
+
+    /* Barra de guardado rápido */
+    .save-bar {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--accent);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      z-index: 2000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .save-bar button {
+      background: white;
+      color: var(--accent);
+      border: none;
+      padding: 5px 15px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 10px;
     }
 
     header {
@@ -37,24 +61,13 @@
       text-align: center;
     }
 
-    h1 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      margin: 0;
-      font-weight: 700;
-      letter-spacing: -1px;
-    }
+    h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin: 0; font-weight: 700; }
 
-    .subtitulo {
-      font-size: 1.2rem;
-      opacity: 0.9;
-      max-width: 600px;
-      margin: 10px auto 0;
-      font-weight: 300;
-    }
+    .subtitulo { font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: 10px auto 0; }
 
     main {
       max-width: 900px;
-      margin: -40px auto 40px; /* Eleva el contenido sobre el header */
+      margin: -40px auto 40px;
       padding: 0 20px;
     }
 
@@ -64,11 +77,6 @@
       margin-bottom: 30px;
       border-radius: 12px;
       box-shadow: var(--shadow);
-      transition: transform 0.3s ease;
-    }
-
-    section:hover {
-      transform: translateY(-5px);
     }
 
     h2 {
@@ -80,19 +88,7 @@
       margin-top: 0;
     }
 
-    h2::after {
-      content: "";
-      flex-grow: 1;
-      height: 1px;
-      background: #eee;
-      margin-left: 10px;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
+    ul { list-style: none; padding: 0; }
     ul li {
       padding: 12px 0;
       border-bottom: 1px solid #f0f0f0;
@@ -100,23 +96,11 @@
       align-items: center;
     }
 
-    ul li:last-child {
-      border-bottom: none;
-    }
-
     ul li::before {
       content: "✓";
       color: var(--accent);
-      font-weight: bold;
       margin-right: 15px;
-      background: #e8f5e9;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      font-size: 0.8rem;
+      font-weight: bold;
     }
 
     .btn-contacto {
@@ -128,14 +112,31 @@
       border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(63, 127, 191, 0.3);
     }
 
-    .btn-contacto:hover {
-      background-color: var(--primary);
-      transform: scale(1.05);
-      box-shadow: 0 6px 15px rgba(31, 46, 77, 0.4);
+    /* Botón flotante Admin */
+    .admin-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .btn-admin {
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    [contenteditable="true"] {
+      outline: 2px dashed var(--secondary);
+      background-color: rgba(63, 127, 191, 0.05);
     }
 
     footer {
@@ -143,28 +144,24 @@
       padding: 40px 20px;
       background-color: var(--primary);
       color: var(--white);
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      header { padding: 60px 20px; }
-      section { padding: 25px; }
     }
   </style>
 </head>
 <body>
 
+  <div id="saveBar" class="save-bar">
+    Estás en modo edición. <button onclick="saveChanges()">Guardar Cambios</button>
+  </div>
+
   <header>
-    <h1>Otech</h1>
-    <p class="subtitulo">Instalaciones inteligentes de cámaras de seguridad y redes de internet</p>
+    <h1 data-key="title">Otech</h1>
+    <p class="subtitulo" data-key="sub">Instalaciones inteligentes de cámaras de seguridad y redes de internet</p>
   </header>
 
   <main>
     <section id="servicios">
       <h2>Servicios</h2>
-      <ul>
+      <ul data-key="services">
         <li>Instalación de cámaras de seguridad HD</li>
         <li>Configuración de redes y wifi empresarial</li>
         <li>Soporte técnico personalizado</li>
@@ -173,12 +170,12 @@
 
     <section id="nosotros">
       <h2>¿Por qué elegir Otech?</h2>
-      <p>Somos profesionales en tecnología aplicada a la seguridad. Ofrecemos soluciones confiables, modernas y al alcance de todos para proteger lo que más te importa.</p>
+      <p data-key="why-text">Somos profesionales en tecnología aplicada a la seguridad. Ofrecemos soluciones confiables, modernas y al alcance de todos para proteger lo que más te importa.</p>
     </section>
 
     <section id="contacto" style="text-align: center;">
       <h2>Contacto</h2>
-      <p>¿Listo para proteger tu espacio? Contáctanos y recibe una asesoría gratuita.</p>
+      <p data-key="contact-p">¿Listo para proteger tu espacio? Contáctanos y recibe una asesoría gratuita.</p>
       <a href="https://wa.me/message/3731" class="btn-contacto">Hablar con un experto</a>
     </section>
   </main>
@@ -187,5 +184,43 @@
     <p>&copy; 2025 Otech | Corzuela, Chaco</p>
   </footer>
 
+  <div class="admin-controls">
+    <button class="btn-admin" onclick="checkAdmin()">⚙️</button>
+  </div>
+
+  <script>
+    // Cargar datos
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedData = JSON.parse(localStorage.getItem('otechData'));
+      if (savedData) {
+        Object.keys(savedData).forEach(key => {
+          const el = document.querySelector(`[data-key="${key}"]`);
+          if (el) el.innerHTML = savedData[key];
+        });
+      }
+    });
+
+    // Login
+    function checkAdmin() {
+      const pass = prompt("Clave de admin:");
+      if (pass === "1234") {
+        document.querySelectorAll('[data-key]').forEach(el => el.contentEditable = "true");
+        document.getElementById('saveBar').style.display = "block";
+      } else {
+        alert("Error.");
+      }
+    }
+
+    // Guardar
+    function saveChanges() {
+      const data = {};
+      document.querySelectorAll('[data-key]').forEach(el => {
+        data[el.getAttribute('data-key')] = el.innerHTML;
+      });
+      localStorage.setItem('otechData', JSON.stringify(data));
+      alert("Guardado!");
+      location.reload();
+    }
+  </script>
 </body>
 </html>
